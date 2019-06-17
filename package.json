@@ -1,0 +1,22 @@
+{
+  "name": "strava-to-postgis",
+  "version": "1.0.0",
+  "description": "Load activities from Strava into PostGIS.",
+  "scripts": {
+    "get-token": "node ./tasks/get-token.js",
+    "load-activity": "node ./tasks/load-single-activity.js",
+    "load-activities": "node ./tasks/load-activities.js"
+  },
+  "keywords": [
+    "strava",
+    "postgis"
+  ],
+  "author": "Kevin Schmidt",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "config": "^3.1.0",
+    "pg": "^7.11.0",
+    "request": "^2.88.0"
+  }
+}

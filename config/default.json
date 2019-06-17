@@ -1,0 +1,15 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 25434,
+    "database": "strava",
+    "user": "docker",
+    "password": "docker"
+  },
+  "strava": {
+    "accessToken": null,
+    "clientId": null,
+    "clientSecret": null,
+    "code": null
+  }
+}
