@@ -5,7 +5,8 @@
   "scripts": {
     "get-token": "node ./tasks/get-token.js",
     "load-activity": "node ./tasks/load-single-activity.js",
-    "load-activities": "node ./tasks/load-activities.js"
+    "load-activities": "node ./tasks/load-activities.js",
+    "most-recent": "node ./tasks/most-recent.js"
   },
   "keywords": [
     "strava",

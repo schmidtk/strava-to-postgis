@@ -23,7 +23,7 @@ const loadActivity = async (activityId) => {
   };
 
   const activityUrl = `https://www.strava.com/api/v3/activities/${activityId}`;
-  const streamUrl = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=latlng,altitude,time&key_by_type=true`;
+  const streamUrl = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=latlng,altitude,time,velocity_smooth&key_by_type=true`;
 
   console.log(`Requesting activity ${activityId}...`);
 
@@ -44,6 +44,7 @@ const loadActivity = async (activityId) => {
   const latlng = stream.latlng.data;
   const lonlat = latlng.map(coord => coord.reverse());
   const altitude = stream.altitude.data;
+  const velocity_smooth = stream.velocity_smooth.data;
 
   const startTime = new Date(activity.start_date).getTime();
   const time = stream.time.data;
@@ -69,14 +70,15 @@ const loadActivity = async (activityId) => {
 
     for (let i = 0; i < lonlat.length; i++) {
       const coord = lonlat[i];
+      const velocity = velocity_smooth[i];
       const wktGeom = `POINT ZM(${coord[0]} ${coord[1]} ${coord[2]} ${coord[3]})`;
       const activityTime = new Date(coord[3]).toISOString();
       const activityName = activity.name || 'Unnamed Activity';
       const shoe = activity.gear && activity.gear.name || '';
 
       await client.query(
-        'INSERT INTO runs(geom, ACTIVITY_ID, TIME, NAME, SHOE) values(ST_GeomFromText($1, 4326), $2, $3, $4, $5)',
-        [wktGeom, activity.id, activityTime, activityName, shoe]
+        'INSERT INTO runs(geom, ACTIVITY_ID, TIME, NAME, SHOE, VELOCITY) values(ST_GeomFromText($1, 4326), $2, $3, $4, $5, $6)',
+        [wktGeom, activity.id, activityTime, activityName, shoe, velocity]
       );
     }
 

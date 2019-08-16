@@ -15,7 +15,7 @@ Go to your [Strava API Settings](https://www.strava.com/settings/api) and create
 Load this URL in a browser to request an OAuth code to retrieve an access token:
 
 ```
-https://www.strava.com/oauth/authorize?client_id=35855&redirect_uri=http://localhost&response_type=code&scope=read,activity:read_all
+https://www.strava.com/oauth/authorize?client_id=<clientId>&redirect_uri=http://localhost&response_type=code&scope=read,activity:read_all
 ```
 
 When you approve authorization, you will be redirected. Copy the code from the redirect URL, ie:
@@ -55,7 +55,8 @@ CREATE TABLE runs (
   TIME timestamp,
   ACTIVITY_ID BIGINT NOT NULL,
   NAME VARCHAR(256),
-  SHOE VARCHAR(256)
+  SHOE VARCHAR(256),
+  VELOCITY DECIMAL
 );
 ```
 
