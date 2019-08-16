@@ -1,6 +1,7 @@
 const config = require('config');
 const Promise = require('bluebird');
 const request = Promise.promisifyAll(require('request'));
+const {Client} = require('pg');
 
 const reportError = (message) => {
   console.error(message);
@@ -54,4 +55,27 @@ const getActivities = async (options) => {
   return ids;
 };
 
-module.exports = getActivities;
+const getStoredActivityIds = async () => {
+  const databaseParams = config.get('database');
+  const client = new Client(databaseParams);
+
+  try {
+    console.log(`Connecting to database...`);
+
+    await client.connect();
+  } catch (e) {
+    reportError(`Database connect failed: ${e.message}`);
+  }
+
+  const res = await client.query('SELECT DISTINCT activity_id FROM runs');
+  const ids = res.rows.map(row => Number(row.activity_id));
+
+  await client.end();
+
+  return ids;
+};
+
+module.exports = {
+  getActivities: getActivities,
+  getStoredActivityIds: getStoredActivityIds
+};
